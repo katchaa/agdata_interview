@@ -1,0 +1,31 @@
+Pro čtení xls souboru jsem vybrala package "xlsx" na základě statistik npmjs.com (popularity, quality) a rozsáhlé dokumentace.
+
+[line 11 - 12]
+Uložení hodnot pro vstupní a výstupní soubor zadaných v terminálovém příkazu
+
+[line 24]
+V případě více listů v xls souboru program iteruje přes jednotlivé listy a data ukládá do jednoho souboru.
+
+[line 28]
+Ukládá do proměnné "keys" data prvního řádku (názvy sloupců)
+
+[line 34]
+Na základě rozložení dat v listu jsem se pro rozdělení jednotlivých půdních bloků rozhodla použít rekurzivní funkci, která jako parametr přijímá kompletní data listu, ve kterých najde poslední řádek s daty daného půdního
+bloku, tomto případě meta data (jako jediný řádek má hodnotu první buňky "undefined") a na základě jeho indexu vybere všechny řádky pro daný půdní bolok a uloží je jako pole do proměnné "groups" [line 33].
+
+[line 50]
+Iterace pro data jednotlivých půdních bloků.
+[line 54 - 57] přiřazuje hodnoty pro název, průměr, meta data a vzorky do proměnných
+
+-"loopOneDimensionalArray" přijímá parametry "source"(array), "target"(object) a "keys"(array) a vytváří objekt s hodnotami pro daný půdní blok, které jsou přířazené k hodnotě "keys"(název sloupce).
+
+-"loopTwoDimensionalArray" přijímá stejné parametry jako "loopOneDimensionalArray", iteruje přes source a následně přes jeho každé pole, vytváří objekty pro jednotlivé vzorky, které následně ukládá do parametru "target".
+
+-pokud je jakákoli hodnota iterovaného pole "undefined", obě funkce mění hodnotu na prázdný string, aby ve výsledném JSON souboru zůstala hodnota "keys"
+
+[line 74]
+Vytváří objet pro daný půdní blok obsahující název(name, string),
+vzorky(samples, pole objetů), průměr(average, objekt) a meta(objekt), které ukladá do pole json.
+
+[line 87]
+Metoda writeFile modulu File System, přijímá parametry "targetFile"(název finálního JSON souboru), v druhém parametru převádí pole json na JSON string a ukládá je do souboru.
